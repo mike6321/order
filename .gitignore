@@ -28,3 +28,5 @@ MemberService/gradle/wrapper/
 MemberService/gradlew
 
 *.bat
+
+.idea/
