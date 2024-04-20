@@ -1,0 +1,32 @@
+### 주소등록
+POST http://localhost:8080/delivery/addresses
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "address": "address1",
+  "alias": "address"
+}
+
+### 주소조회
+GET http://localhost:8080/delivery/address/1
+Accept: application/json
+
+### 배송처리
+POST http://localhost:8080/delivery/process-delivery
+Content-Type: application/json
+
+{
+  "orderId": 1234,
+  "productName": "product-01",
+  "productCount": 1,
+  "address": "address1"
+}
+
+### 배송조회
+GET http://localhost:8080/delivery/deliveries/1
+Accept: application/json
+
+### 사용자 주소 조회
+GET http://localhost:8080/delivery/users/1/first-address
+Accept: application/json
