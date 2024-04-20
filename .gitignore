@@ -30,3 +30,5 @@ MemberService/gradlew
 *.bat
 
 .idea/
+
+PaymentService/gradlew

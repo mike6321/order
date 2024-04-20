@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  mysql-server:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+    ports:
+      - "3306:3306"
+
+  member-service:
+    image: member-service
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mysql-server

@@ -1,0 +1,28 @@
+### PaymentMethod 등록
+POST http://localhost:8080//payment/methods
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "paymentMethodType": "CREDIT_CARD",
+  "creditCardNumber": "1234-1234-1234-1234"
+}
+
+### PaymentMethod 조회
+GET http://localhost:8080//payment/users/1/first-method
+Accept: application/json
+
+### 결제
+POST http://localhost:8080//payment/process-payment
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "orderId": 1234,
+  "amountKRW": 5000,
+  "paymentMethodId": 1
+}
+
+### 결제 조회
+GET http://localhost:8080//payment/payments/1
+Accept: application/json
