@@ -40,3 +40,7 @@ DeliveryService/gradle/wrapper/
 SearchService/gradlew
 
 SearchService/gradle/wrapper/
+
+CatalogService/gradlew
+
+CatalogService/gradle/wrapper/
