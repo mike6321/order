@@ -1,0 +1,21 @@
+### 태그추가
+POST http://localhost:8080/search/addTagCache
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "tags": [1, 2, 3]
+}
+
+### 태그조회
+GET http://localhost:8080/search/tags/2/productIds
+Content-Type: application/json
+
+### 태그삭제
+DELETE http://localhost:8080/search/removeTagCache
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "tags": [2, 3]
+}

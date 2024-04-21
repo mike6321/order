@@ -36,3 +36,7 @@ PaymentService/gradlew
 DeliveryService/gradlew
 
 DeliveryService/gradle/wrapper/
+
+SearchService/gradlew
+
+SearchService/gradle/wrapper/
