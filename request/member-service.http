@@ -1,0 +1,22 @@
+### 등록
+POST http://localhost:8081//member/users/registration
+Content-Type: application/json
+
+{
+  "loginId": "1",
+  "userName": "test"
+}
+
+### 수정
+PUT http://localhost:8081//member/users/1/modification
+Content-Type: application/json
+
+{
+  "userName": "test2"
+}
+
+
+### 로그인
+GET http://localhost:8081/member/users/1/login
+Accept: application/json
+

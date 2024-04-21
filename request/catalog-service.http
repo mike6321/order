@@ -1,0 +1,34 @@
+### 상품등록
+POST http://localhost:8085/catalog/products
+Content-Type: application/json
+
+{
+  "sellerId": 1,
+  "name": "name1",
+  "description": "description",
+  "price": 500,
+  "stockCount": 100,
+  "tags": [1, 2, 3]
+}
+
+
+### 상품삭제
+DELETE http://localhost:8085/catalog/products/1
+Content-Type: application/json
+
+
+### 상품조회 (productId)
+GET http://localhost:8085/catalog/products/4
+Content-Type: application/json
+
+### 상품조회 (sellerId)
+GET http://localhost:8085/catalog/sellers/1/products
+Content-Type: application/json
+
+### 재고감소
+PUT http://localhost:8085/catalog/products/4/decreaseStockCount
+Content-Type: application/json
+
+{
+  "decreaseCount": 15
+}

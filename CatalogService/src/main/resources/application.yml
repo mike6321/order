@@ -7,7 +7,7 @@ spring:
     schema-action: create-if-not-exists
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/my_db?useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://mysql-server:3306/my_db?useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: '1234'
   jpa:
