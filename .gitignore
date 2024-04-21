@@ -44,3 +44,7 @@ SearchService/gradle/wrapper/
 CatalogService/gradlew
 
 CatalogService/gradle/wrapper/
+
+OrderService/gradlew
+
+OrderService/gradle/wrapper/
