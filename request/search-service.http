@@ -8,7 +8,7 @@ Content-Type: application/json
 }
 
 ### 태그조회
-GET http://localhost:8084/search/tags/1/productIds
+GET http://localhost:8084/search/tags/2/productIds
 Content-Type: application/json
 
 ### 태그삭제

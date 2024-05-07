@@ -14,11 +14,13 @@ public class SearchController {
 
     private final SearchService searchService;
 
+    @Deprecated
     @PostMapping("addTagCache")
     public void addTagCache(@RequestBody ProductTagsDto dto) {
         searchService.addTagCache(dto.productId, dto.tags);
     }
 
+    @Deprecated
     @DeleteMapping("removeTagCache")
     public void removeTagCache(@RequestBody ProductTagsDto dto) {
         searchService.removeTagCache(dto.productId, dto.tags);

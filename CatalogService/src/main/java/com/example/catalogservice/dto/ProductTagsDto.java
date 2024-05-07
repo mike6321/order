@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.util.List;
 
+@Deprecated
 @Getter
 @AllArgsConstructor
 public class ProductTagsDto {
