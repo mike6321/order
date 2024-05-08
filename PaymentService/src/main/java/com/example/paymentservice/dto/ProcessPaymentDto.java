@@ -1,5 +1,6 @@
 package com.example.paymentservice.dto;
 
+@Deprecated
 public class ProcessPaymentDto {
 
     public Long userId;

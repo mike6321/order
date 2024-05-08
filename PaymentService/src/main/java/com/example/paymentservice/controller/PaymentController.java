@@ -25,6 +25,7 @@ public class PaymentController {
         );
     }
 
+    @Deprecated
     @PostMapping("process-payment")
     public Payment processPayment(@RequestBody ProcessPaymentDto dto) throws Exception {
         return paymentService.processPayment(
