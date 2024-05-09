@@ -31,7 +31,7 @@ public class OrderService {
 
     public StartOrderResponseDto startOrder(Long userId, Long productId, Long count) {
         // 1. 상품 정보 조회
-        var product = catalogClient.getProduct(productId);
+        catalogClient.getProduct(productId);
 
         // 2. 결제 수단 정보 조회
         var paymentMethod = paymentClient.getPaymentMethod(userId);
