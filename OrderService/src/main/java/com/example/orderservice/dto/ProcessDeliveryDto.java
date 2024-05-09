@@ -1,5 +1,6 @@
 package com.example.orderservice.dto;
 
+@Deprecated
 public class ProcessDeliveryDto {
 
     public Long orderId;

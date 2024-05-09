@@ -1,19 +1,22 @@
 package com.example.orderservice.service;
 
-import com.example.orderservice.dto.*;
+import blackfriday.protobuf.EdaMessage;
+import com.example.orderservice.dto.ProductOrderDetailDto;
+import com.example.orderservice.dto.StartOrderResponseDto;
 import com.example.orderservice.entity.ProductOrder;
+import com.example.orderservice.enums.OrderStatus;
 import com.example.orderservice.feign.CatalogClient;
 import com.example.orderservice.feign.DeliveryClient;
 import com.example.orderservice.feign.PaymentClient;
 import com.example.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
 import static com.example.orderservice.dto.StartOrderResponseDto.convert;
-import static com.example.orderservice.enums.OrderStatus.DELIVERY_REQUESTED;
 import static com.example.orderservice.enums.OrderStatus.INITIATED;
 
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class OrderService {
     private final PaymentClient paymentClient;
     private final DeliveryClient deliveryClient;
     private final CatalogClient catalogClient;
+    private final KafkaTemplate<String, byte[]> kafkaTemplate;
 
     public StartOrderResponseDto startOrder(Long userId, Long productId, Long count) {
         // 1. 상품 정보 조회
@@ -47,16 +51,10 @@ public class OrderService {
         var product = catalogClient.getProduct(order.productId);
 
         // 2. 결제
-        var payment = payment(paymentMethodId, order, product);
+        payment(paymentMethodId, order, product);
 
-        // 3. 배송 요청
-        var delivery = delivery(addressId, order, product);
-
-        // 4. 상품 재고 감소
-        stock(order);
-
-        // 5. 주문 정보 업데이트
-        return updateOrderInfo(order, payment, delivery);
+        // 3. 주문 정보 업데이트
+        return updateOrderInfo(order, addressId);
     }
 
     public List<ProductOrder> getUserOrders(Long userId) {
@@ -88,46 +86,30 @@ public class OrderService {
                 count,
                 INITIATED,
                 null,
+                null,
                 null
         );
         return orderRepository.save(order);
     }
 
-    private ProductOrder updateOrderInfo(ProductOrder order, Map<String, Object> payment, Map<String, Object> delivery) {
-        order.paymentId = Long.parseLong(payment.get("id").toString());
-        order.deliveryId = Long.parseLong(delivery.get("id").toString());
-        order.orderStatus = DELIVERY_REQUESTED;
+    private ProductOrder updateOrderInfo(ProductOrder order, Long addressId) {
+        Map<String, Object> address = deliveryClient.getAddress(addressId);
 
+        order.orderStatus = OrderStatus.PAYMENT_REQUESTED;
+        order.deliveryAddress = address.get("address").toString();
         return orderRepository.save(order);
     }
 
-    private void stock(ProductOrder order) {
-        var decreaseStockCountDto = new DecreaseStockCountDto();
-        decreaseStockCountDto.decreaseCount = order.count;
+    private void payment(Long paymentMethodId, ProductOrder order, Map<String, Object> product) {
+        EdaMessage.PaymentRequestV1 paymentRequest = EdaMessage.PaymentRequestV1
+                .newBuilder()
+                .setOrderId(order.id)
+                .setUserId(order.userId)
+                .setAmountKRW(Long.parseLong(product.get("price").toString()) * order.count)
+                .setPaymentMethodId(paymentMethodId)
+                .build();
 
-        catalogClient.decreaseStockCount(order.productId, decreaseStockCountDto);
-    }
-
-    private Map<String, Object> delivery(Long addressId, ProductOrder order, Map<String, Object> product) {
-        var address = deliveryClient.getAddress(addressId);
-
-        var processDeliveryDto = new ProcessDeliveryDto();
-        processDeliveryDto.orderId = order.id;
-        processDeliveryDto.productName = product.get("name").toString();
-        processDeliveryDto.productCount = order.count;
-        processDeliveryDto.address = address.get("address").toString();
-
-        return deliveryClient.processDelivery(processDeliveryDto);
-    }
-
-    private Map<String, Object> payment(Long paymentMethodId, ProductOrder order, Map<String, Object> product) {
-        var processPaymentDto = new ProcessPaymentDto();
-        processPaymentDto.orderId = order.id;
-        processPaymentDto.userId = order.userId;
-        processPaymentDto.amountKRW = Long.parseLong(product.get("price").toString()) * order.count;
-        processPaymentDto.paymentMethodId = paymentMethodId;
-
-        return paymentClient.processPayment(processPaymentDto);
+        kafkaTemplate.send("payment_request", paymentRequest.toByteArray());
     }
 
 

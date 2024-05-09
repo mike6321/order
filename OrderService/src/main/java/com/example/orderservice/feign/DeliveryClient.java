@@ -18,6 +18,7 @@ public interface DeliveryClient {
     @GetMapping(value = "/delivery/address/{addressId}")
     Map<String, Object> getAddress(@PathVariable Long addressId);
 
+    @Deprecated
     @PostMapping(value = "/delivery/process-delivery")
     Map<String, Object> processDelivery(@RequestBody ProcessDeliveryDto dto);
 

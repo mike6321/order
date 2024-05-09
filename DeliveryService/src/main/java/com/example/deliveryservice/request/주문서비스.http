@@ -1,0 +1,25 @@
+### 주문시작
+POST http://localhost:8086/order/start-order
+Content-Type: application/json
+
+{
+  "userId": 8,
+  "productId": 9,
+  "count": 5
+
+}
+
+### 주문완료
+POST http://localhost:8086/order/finish-order
+Content-Type: application/json
+
+{
+  "orderId": 3,
+  "paymentMethodId": 9,
+  "addressId": 2
+
+}
+
+### 주문조회
+GET http://localhost:8086/order/users/8/orders
+Accept: application/json
