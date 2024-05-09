@@ -24,6 +24,7 @@ public class DeliveryController {
         );
     }
 
+    @Deprecated
     @PostMapping("process-delivery")
     public Delivery processDelivery(@RequestBody ProcessDeliveryDto dto) {
         return deliveryService.processDelivery(
