@@ -13,9 +13,9 @@ import java.util.Map;
 public interface CatalogClient {
 
     @GetMapping(value = "/catalog/products/{productId}")
-    Map<String, Object> getProduct(@PathVariable Long productId);
+    Map<String, Object> getProduct(@PathVariable("productId") Long productId);
 
     @PutMapping(value = "/catalog/products/{productId}/decreaseStockCount")
-    void decreaseStockCount(@PathVariable Long productId, @RequestBody DecreaseStockCountDto dto);
+    void decreaseStockCount(@PathVariable("productId") Long productId, @RequestBody DecreaseStockCountDto dto);
 
 }

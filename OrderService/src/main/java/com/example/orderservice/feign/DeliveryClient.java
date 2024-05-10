@@ -13,16 +13,16 @@ import java.util.Map;
 public interface DeliveryClient {
 
     @GetMapping(value = "/delivery/users/{userId}/first-address")
-    Map<String, Object> getUserAddress(@PathVariable Long userId);
+    Map<String, Object> getUserAddress(@PathVariable("userId") Long userId);
 
     @GetMapping(value = "/delivery/address/{addressId}")
-    Map<String, Object> getAddress(@PathVariable Long addressId);
+    Map<String, Object> getAddress(@PathVariable("addressId") Long addressId);
 
     @Deprecated
     @PostMapping(value = "/delivery/process-delivery")
     Map<String, Object> processDelivery(@RequestBody ProcessDeliveryDto dto);
 
     @GetMapping(value = "/delivery/deliveries/{deliveryId}")
-    Map<String, Object> getDelivery(@PathVariable Long deliveryId);
+    Map<String, Object> getDelivery(@PathVariable("deliveryId") Long deliveryId);
 
 }

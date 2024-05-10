@@ -13,13 +13,13 @@ import java.util.Map;
 public interface PaymentClient {
 
     @GetMapping(value = "/payment/users/{userId}/first-method")
-    Map<String, Object> getPaymentMethod(@PathVariable Long userId);
+    Map<String, Object> getPaymentMethod(@PathVariable("userId") Long userId);
 
     @Deprecated
     @PostMapping(value = "/payment/process-payment")
     Map<String, Object> processPayment(@RequestBody ProcessPaymentDto dto);
 
     @GetMapping(value = "/payment/payments/{paymentId}")
-    Map<String, Object> getPayment(@PathVariable Long paymentId);
+    Map<String, Object> getPayment(@PathVariable("paymentId") Long paymentId);
 
 }
